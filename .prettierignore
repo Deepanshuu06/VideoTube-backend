@@ -1,0 +1,13 @@
+# Ignore all files in the node_modules directory
+node_modules/**
+
+# Ignore any files or directories starting with a dot
+.*/
+
+# Ignore any build artifacts or compiled files
+/build/
+/dist/
+/out/
+
+# Ignore any vendored dependencies
+/vendor/
