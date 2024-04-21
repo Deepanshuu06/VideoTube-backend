@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { Jwt } from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Import jwt using default import
+import bcrypt from "bcrypt"
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -18,17 +19,17 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    full_Name: {
+    fullName: { // Corrected field name
       type: String,
       required: true,
       index: true,
       trim: true,
     },
-    avatar_url: {
+    avatarUrl: { // Corrected field name
       type: String, //cloudinary url
       required: true,
     },
-    cover_image_url: {
+    coverImageUrl: { // Corrected field name
       type: String,
       required: true,
     },
@@ -51,7 +52,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    this.password = bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 10);
   }
   next();
 });
@@ -60,13 +61,13 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = async function () {
-  Jwt.sign(
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
     {
       _id: this._id,
       email: this.email,
       username: this.username,
-      full_Name: this.full_Name,
+      fullName: this.fullName,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -74,8 +75,9 @@ userSchema.methods.generateAccessToken = async function () {
     },
   );
 };
-userSchema.methods.generateRefreshToken = async function () {
-  Jwt.sign(
+
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
     {
       _id: this._id,
     },
@@ -85,4 +87,5 @@ userSchema.methods.generateRefreshToken = async function () {
     },
   );
 };
+
 export const User = mongoose.model("User", userSchema);
