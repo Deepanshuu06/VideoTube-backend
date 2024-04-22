@@ -2,7 +2,6 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-
 const app = express();
 
 app.use(
@@ -21,7 +20,7 @@ import router from "./routes/user.routes.js";
 
 
 //router decl
-app.use("/api/v1/users" , router)
+app.use("/api/v1/users", router)
 
 
 

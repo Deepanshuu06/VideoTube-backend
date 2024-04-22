@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken"; // Import jwt using default import
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,17 +19,20 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    fullName: { // Corrected field name
+    fullName: {
+      // Corrected field name
       type: String,
       required: true,
       index: true,
       trim: true,
     },
-    avatarUrl: { // Corrected field name
+    avatarUrl: {
+      // Corrected field name
       type: String, //cloudinary url
       required: true,
     },
-    coverImageUrl: { // Corrected field name
+    coverImageUrl: {
+      // Corrected field name
       type: String,
       required: true,
     },
