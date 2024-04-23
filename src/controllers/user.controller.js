@@ -290,6 +290,25 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   return res.status(200).json(200, {}, "Cover Image updated sucessfully");
 });
 
+const getUserChannelProfile  = asyncHandler(async(req, res)=>{
+  const {username} = req.params
+
+  if(!username?.trim()){
+    throw new ApiError(400, "user not exist")
+  }
+
+  const channel = await User.aggregate([
+    {
+      $match:{
+        username:username?.toLowerCase()
+      }
+    }
+  ])
+
+
+
+})
+
 export {
   registerUser,
   loginUser,
