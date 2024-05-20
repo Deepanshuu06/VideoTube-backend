@@ -173,7 +173,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   if (!incomingRefreshToken) {
     throw new ApiError(401, "unathorized request");
   }
-
   try {
     const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
@@ -214,7 +213,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   const user = User.findById(req.user?._id);
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
   if (!isPasswordCorrect) {
-    throw new ApiError(400, "Old password is incoorect");
+    throw new ApiError(400, "Old password is incorrect");
   }
   user.password = newPassword;
   await user.save({ validateBeforeSave: false });
@@ -290,24 +289,21 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   return res.status(200).json(200, {}, "Cover Image updated sucessfully");
 });
 
-const getUserChannelProfile  = asyncHandler(async(req, res)=>{
-  const {username} = req.params
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
 
-  if(!username?.trim()){
-    throw new ApiError(400, "user not exist")
+  if (!username?.trim()) {
+    throw new ApiError(400, "user not exist");
   }
 
   const channel = await User.aggregate([
     {
-      $match:{
-        username:username?.toLowerCase()
-      }
-    }
-  ])
-
-
-
-})
+      $match: {
+        username: username?.toLowerCase(),
+      },
+    },
+  ]);
+});
 
 export {
   registerUser,
